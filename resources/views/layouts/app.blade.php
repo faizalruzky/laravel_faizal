@@ -11,13 +11,13 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
-     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700">
 
 
     <!-- Styles -->
-     <link href="/library/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-      <link href="/library/materialize/css/materialize.min.css" rel="stylesheet"/>
-      <link href="/library/masonry/style.css" rel="stylesheet">
+    <link href="/library/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/library/materialize/css/materialize.min.css" rel="stylesheet"/>
+    <link href="/library/masonry/style.css" rel="stylesheet">
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
 
@@ -30,18 +30,18 @@
             margin-right: 6px;
         }
     </style>
-     <script src="/library/jquery/jquery-3.1.0.js"></script>
-      <script src="/library/bootstrap/js/bootstrap.min.js"></script>
-      <script src="/library/materialize/js/materialize.min.js"></script>
-      <script src="/library/masonry/masonry.pkgd.min.js"></script>
-      <script src="/library/masonry/jquery.js"></script>
-      <script src="http://code.jquery.com/jquery.js"></script>
- 
-      <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-      <script src="http://cdnjs.cloudflare.com/ajax/libs/masonry/3.1.5/masonry.pkgd.min.js"></script>
-      <script src="custom/script.js"></script>
-        <script src="/js/custom.js"></script>
-    
+    <script src="/library/jquery/jquery-3.1.0.js"></script>
+    <script src="/library/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/library/materialize/js/materialize.min.js"></script>
+    <script src="/library/masonry/masonry.pkgd.min.js"></script>
+    <script src="/library/masonry/jquery.js"></script>
+    <script src="http://code.jquery.com/jquery.js"></script>
+
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/masonry/3.1.5/masonry.pkgd.min.js"></script>
+    <script src="custom/script.js"></script>
+    <script src="/js/custom.js"></script>
+
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-default navbar-static-top">
@@ -75,18 +75,18 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::guest())
-                        <li><a href="{{ url('/login') }}">Login</a></li>
-                        <li><a href="{{ url('/register') }}">Register</a></li>
+                    <li><a href="{{ url('/login') }}">Login</a></li>
+                    <li><a href="{{ url('/register') }}">Register</a></li>
                     @else
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ Auth::user()->name }} <span class="caret"></span>
-                            </a>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            {{ Auth::user()->name }} <span class="caret"></span>
+                        </a>
 
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
-                            </ul>
-                        </li>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                        </ul>
+                    </li>
                     @endif
                 </ul>
             </div>

@@ -13,109 +13,109 @@ use Image, File;
 
 class ArticlesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+/**
+* Display a listing of the resource.
+*
+* @return \Illuminate\Http\Response
+*/
 
-    public function __construct(){
+public function __construct(){
     $this->middleware('auth');
-    } 
+} 
 
-    public function index()
-    {
-        $articles = Article::paginate(10);
-        return view('articles.index', compact('articles'));
-    }
+public function index()
+{
+    $articles = Article::paginate(10);
+    return view('articles.index', compact('articles'));
+}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('articles.create');
-    }
+/**
+* Show the form for creating a new resource.
+*
+* @return \Illuminate\Http\Response
+*/
+public function create()
+{
+    return view('articles.create');
+}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-         // dd($request->all());
-        $validate = Validator::make($request->all(), Article::valid());
-        if($validate->fails()) {
+/**
+* Store a newly created resource in storage.
+*
+* @param  \Illuminate\Http\Request  $request
+* @return \Illuminate\Http\Response
+*/
+public function store(Request $request)
+{
+// dd($request->all());
+    $validate = Validator::make($request->all(), Article::valid());
+    if($validate->fails()) {
         return back()
         ->withErrors($validate)
         ->withInput();
-       
-        } else {
-            $add = new Article();
-            $add->title=$request->title;
-            $add->content=$request->content;
-            $add->author=$request->author;
-            $file = $request->file('photo');
-            $add->image=$file->getClientOriginalName();
-            
-            $add->save();
-            $img = Image::make($file);
-            $img->backup();
-            $img->crop(600, 300,0,0);
-            $image_location = public_path().'/uploads/images/'.$add->id;
-        
+
+    } else {
+        $add = new Article();
+        $add->title=$request->title;
+        $add->content=$request->content;
+        $add->author=$request->author;
+        $file = $request->file('photo');
+        $add->image=$file->getClientOriginalName();
+
+        $add->save();
+        $img = Image::make($file);
+        $img->backup();
+        $img->crop(600, 300,0,0);
+        $image_location = public_path().'/uploads/images/'.$add->id;
+
         if(!File::exists($image_location)) {
             File::makeDirectory($image_location, $mode=0777, true, true);
         }
-        // save the same file as jpeg with default quality
+// save the same file as jpeg with default quality
         $img->save($image_location.'/resize-'.$file->getClientOriginalName());
         $img->reset();
         $img->save($image_location.'/'.$file->getClientOriginalName());
         Session::flash('notice', 'Success add article');
         return Redirect::to('articles');
     }
-    }
+}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $article = Article::findOrFail($id);
-         $comments = Article::find($id)->comments->sortBy('Comment.created_at');
-        return view('articles.show')->with('article', $article)->with('comments', $comments);
-    }
+/**
+* Display the specified resource.
+*
+* @param  int  $id
+* @return \Illuminate\Http\Response
+*/
+public function show($id)
+{
+    $article = Article::findOrFail($id);
+    $comments = Article::find($id)->comments->sortBy('Comment.created_at');
+    return view('articles.show')->with('article', $article)->with('comments', $comments);
+}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $article = Article::findOrFail($id);
-        return view('articles.edit', compact('article'));
-    }
+/**
+* Show the form for editing the specified resource.
+*
+* @param  int  $id
+* @return \Illuminate\Http\Response
+*/
+public function edit($id)
+{
+    $article = Article::findOrFail($id);
+    return view('articles.edit', compact('article'));
+}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-          $validate = Validator::make($request->all(), Article::valid($id));
-        if($validate->fails()) {
+/**
+* Update the specified resource in storage.
+*
+* @param  \Illuminate\Http\Request  $request
+* @param  int  $id
+* @return \Illuminate\Http\Response
+*/
+public function update(Request $request, $id)
+{
+    $validate = Validator::make($request->all(), Article::valid($id));
+    if($validate->fails()) {
         return back()
         ->withErrors($validate)
         ->withInput();
@@ -129,40 +129,40 @@ class ArticlesController extends Controller
             $update_article->image = $update_article->image;
         } 
         else{
-         $file = $request->file('photo');
+            $file = $request->file('photo');
             $update_article->image=$file->getClientOriginalName();
-            
+
             $update_article->save();
             $img = Image::make($file);
             $img->backup();
             $img->crop(600, 300,0,0);
             $image_location = public_path().'/uploads/images/'.$update_article->id;
-        
-        if(!File::exists($image_location)) {
-            File::makeDirectory($image_location, $mode=0777, true, true);
+
+            if(!File::exists($image_location)) {
+                File::makeDirectory($image_location, $mode=0777, true, true);
+            }
+// save the same file as jpeg with default quality
+            $img->save($image_location.'/resize-'.$file->getClientOriginalName());
+            $img->reset();
+            $img->save($image_location.'/'.$file->getClientOriginalName());
         }
-        // save the same file as jpeg with default quality
-        $img->save($image_location.'/resize-'.$file->getClientOriginalName());
-        $img->reset();
-        $img->save($image_location.'/'.$file->getClientOriginalName());
-    }
         $update_article->update();
         Session::flash('notice', 'Success update article');
         return Redirect::to('articles');
     }
-    }
+}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $article = Article::findOrFail($id);
-        $article->delete();
-        flash()->success('Article has been deleted successfully.');
-        return redirect('articles');
-    }
+/**
+* Remove the specified resource from storage.
+*
+* @param  int  $id
+* @return \Illuminate\Http\Response
+*/
+public function destroy($id)
+{
+    $article = Article::findOrFail($id);
+    $article->delete();
+    flash()->success('Article has been deleted successfully.');
+    return redirect('articles');
+}
 }

@@ -7,20 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
 	protected $fillable = ['article_id','content', 'user'];
-    public static function valid() {
+	public static function valid() {
 
-    	return array(
+		return array(
 
-      				'content' => 'required',
-      				'user' => 'required'
+			'content' => 'required',
+			'user' => 'required'
 
-    	);
+			);
 
-  	}
+	}
 
-  	public function article() {
+	public function article() {
 
-    	return $this->belongsTo('App\Article', 'article_id');
+		return $this->belongsTo('App\Article', 'article_id');
 
-  }
+	}
 }
