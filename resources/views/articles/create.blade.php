@@ -10,7 +10,7 @@
   		<li>Create</li>
   	</ol>
   	@include('flash::message')
-    {!! Form::open(['url' => 'articles']) !!}
+    {!! Form::open(['url' => 'articles', 'class' => 'form-horizontal', 'role' => 'form', 'enctype'=>"multipart/form-data"]) !!}
       @include('articles.form', ['submitText' => '<i class="fa fa-plus"></i> Create'])
     {!! Form::close() !!}
 

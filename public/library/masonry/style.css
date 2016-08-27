@@ -1,0 +1,41 @@
+.grid-item {
+  float: left;
+  /*width: 80px;*/
+  height: 60px;
+  border: 2px solid hsla(0, 0%, 0%, 0.5);
+   margin-bottom: 10px;
+}
+
+/*.grid-item--width2 { width: 160px; }*/
+.grid-item--height2 { height: 140px; }
+
+/* fluid 5 columns */
+.grid-sizer,
+.grid-item { width: 20%; }
+/* 2 columns */
+.grid-item--width2 { width: 40%; }
+
+.stamp {
+  position: absolute;
+  background: orange;
+  border: 4px dotted black;
+}
+.stamp1 {
+  left: 30%;
+  top: 10px;
+  width: 20%;
+  height: 100px;
+}
+.stamp2 {
+  right: 10%;
+  top: 20px;
+  width: 70%;
+  height: 30px;
+}
+
+.grid {
+  margin: 0 auto;
+}
+
+containerStyle: null;
+

@@ -1,10 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Requests\ImageUploadRequest;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
-
+use Validator;
+use Session;
+use App\Http\Requests;
 use App\Article;
+use App\Comment;
+use Image, File;
 
 class ArticlesController extends Controller
 {
@@ -42,9 +47,37 @@ class ArticlesController extends Controller
      */
     public function store(Request $request)
     {
-        Article::create($request->all());
-        flash()->success('Article has been created successfully.');
-        return redirect('articles');
+         // dd($request->all());
+        $validate = Validator::make($request->all(), Article::valid());
+        if($validate->fails()) {
+        return back()
+        ->withErrors($validate)
+        ->withInput();
+       
+        } else {
+            $add = new Article();
+            $add->title=$request->title;
+            $add->content=$request->content;
+            $add->author=$request->author;
+            $file = $request->file('photo');
+            $add->image=$file->getClientOriginalName();
+            
+            $add->save();
+            $img = Image::make($file);
+            $img->backup();
+            $img->crop(600, 300,0,0);
+            $image_location = public_path().'/uploads/images/'.$add->id;
+        
+        if(!File::exists($image_location)) {
+            File::makeDirectory($image_location, $mode=0777, true, true);
+        }
+        // save the same file as jpeg with default quality
+        $img->save($image_location.'/resize-'.$file->getClientOriginalName());
+        $img->reset();
+        $img->save($image_location.'/'.$file->getClientOriginalName());
+        Session::flash('notice', 'Success add article');
+        return Redirect::to('articles');
+    }
     }
 
     /**
@@ -56,7 +89,8 @@ class ArticlesController extends Controller
     public function show($id)
     {
         $article = Article::findOrFail($id);
-        return view('articles.show', compact('article'));
+         $comments = Article::find($id)->comments->sortBy('Comment.created_at');
+        return view('articles.show')->with('article', $article)->with('comments', $comments);
     }
 
     /**
@@ -80,10 +114,42 @@ class ArticlesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $article = Article::findOrFail($id);
-        $article->update($request->all());
-        flash()->success('Article has been updated successfully.');
-        return redirect('articles');
+          $validate = Validator::make($request->all(), Article::valid($id));
+        if($validate->fails()) {
+        return back()
+        ->withErrors($validate)
+        ->withInput();
+    } else {
+        $update_article = Article::find($id);               
+        $update_article->title=$request['title'];
+        $update_article->content=$request['content'];
+        $update_article->author=$request['author'];
+        if($request->file('photo') == "")
+        {
+            $update_article->image = $update_article->image;
+        } 
+        else{
+         $file = $request->file('photo');
+            $update_article->image=$file->getClientOriginalName();
+            
+            $update_article->save();
+            $img = Image::make($file);
+            $img->backup();
+            $img->crop(600, 300,0,0);
+            $image_location = public_path().'/uploads/images/'.$update_article->id;
+        
+        if(!File::exists($image_location)) {
+            File::makeDirectory($image_location, $mode=0777, true, true);
+        }
+        // save the same file as jpeg with default quality
+        $img->save($image_location.'/resize-'.$file->getClientOriginalName());
+        $img->reset();
+        $img->save($image_location.'/'.$file->getClientOriginalName());
+    }
+        $update_article->update();
+        Session::flash('notice', 'Success update article');
+        return Redirect::to('articles');
+    }
     }
 
     /**
