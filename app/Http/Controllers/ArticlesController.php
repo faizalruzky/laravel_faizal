@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 use App\Http\Requests\ImageUploadRequest;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Controllers\Requests;
 use Illuminate\Http\Request;
+// use Request;
 use Validator;
 use Session;
-use App\Http\Requests;
 use App\Article;
 use App\Comment;
 use Image, File;
@@ -23,11 +24,30 @@ public function __construct(){
     $this->middleware('auth');
 } 
 
-public function index()
+public function index(Request $request)
 {
-    $articles = Article::paginate(10);
-    return view('articles.index', compact('articles'));
-}
+     if($request->ajax()) {
+
+      $articles = Article::paginate(3);
+
+      $view = (String)view('articles.list')
+
+        ->with('articles', $articles)
+
+        ->render();
+
+      return response()->json(['view' => $view]);
+
+    } else {
+
+      $articles = Article::paginate(3);
+
+      return view('articles.index')
+
+        ->with('articles', $articles);
+
+    }
+}  
 
 /**
 * Show the form for creating a new resource.
@@ -161,8 +181,16 @@ public function update(Request $request, $id)
 public function destroy($id)
 {
     $article = Article::findOrFail($id);
-    $article->delete();
-    flash()->success('Article has been deleted successfully.');
-    return redirect('articles');
+    $image_location = public_path().'/uploads/images/'.$id.'/'.$article->image;
+    unlink($image_location);
+    $dir = public_path().'/uploads/images/'.$id;
+    File::deleteDirectory($dir);
+    if ($article->delete()) {
+        Session::flash('notice', 'Article success delete');
+        return Redirect::to('articles');
+    } else {
+        Session::flash('error', 'Article fails delete');
+        return Redirect::to('articles');
+    }
 }
 }
