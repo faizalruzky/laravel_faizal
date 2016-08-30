@@ -1,20 +1,58 @@
-$('.article_link').click(function(e){
-      e.preventDefault();
-      $.ajax({
-        url: '/articles',
-        type:'GET',
-        dataType: 'json',
+  $(function() {
+ $.ajaxSetup({
+                headers: {
+                    'X-XSRF-Token': $('meta[name="_token"]').attr('content')
+                }
+            });
+});
 
-        success: function (data)
-        {
-          console.log(data);
-          $('.panel-body').append(data);
-        },
+$(document).ready(function() {
 
-        error: function (xhr, status)
-        {
-          console.log(xhr.error);
-        }
-      });
+  $(document).on('click', '.pagination a', function(e) {
 
+    get_page($(this).attr('href').split('page=')[1]);
+
+    e.preventDefault();
+
+  });
+   $('.materialboxed').materialbox();
+
+});
+
+ 
+
+function get_page(page) {
+
+  $.ajax({
+
+    url : '/articles?page=' + page,
+
+    type : 'GET',
+
+    dataType : 'json',
+
+    success : function(data) {
+
+      $('#articles-list').html(data['view']);
+
+    },
+
+    error : function(xhr, status, error) {
+
+      console.log(xhr.error + "\n ERROR STATUS : " + status + "\n" + error);
+
+    },
+
+    complete : function() {
+
+      alreadyloading = false;
+
+    }
+
+  });
+
+}
+//javascript tampil gambar
+ $(document).ready(function(){
+   
   });
