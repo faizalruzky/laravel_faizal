@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 use App\Http\Requests\ImageUploadRequest;
 use Illuminate\Support\Facades\Redirect;
-use App\Http\Controllers\Requests;
 use Illuminate\Http\Request;
 // use Request;
 use Validator;
@@ -27,8 +26,17 @@ public function __construct(){
 public function index(Request $request)
 {
      if($request->ajax()) {
+          if($request->keywords) {
 
-      $articles = Article::paginate(3);
+        $articles = Article::where('title', 'like', '%'.$request->keywords.'%')
+
+          ->orWhere('content', 'like', '%'.$request->keywords.'%')
+
+          ->paginate(3);
+
+      }else {
+       $articles = Article::paginate(3);
+    }
 
       $view = (String)view('articles.list')
 
@@ -38,7 +46,7 @@ public function index(Request $request)
 
       return response()->json(['view' => $view]);
 
-    } else {
+    }  else {
 
       $articles = Article::paginate(3);
 
@@ -47,7 +55,41 @@ public function index(Request $request)
         ->with('articles', $articles);
 
     }
-}  
+}
+
+//   $view = (String) view('articles._list')
+
+    //     ->with('articles', $articles)
+
+    //     ->render();
+
+    //   return response()->json(['view' => $view]);
+
+    //   }else {
+
+
+    //   $articles = Article::paginate(3);
+
+    //   $view = (String)view('articles.list')
+
+    //     ->with('articles', $articles)
+
+    //     ->render();
+
+    //   return response()->json(['view' => $view]);
+
+    // } 
+    // else {
+
+    //   $articles = Article::paginate(3);
+
+    //   return view('articles.index')
+
+    //     ->with('articles', $articles);
+    // }
+
+       
+    //    else {
 
 /**
 * Show the form for creating a new resource.
