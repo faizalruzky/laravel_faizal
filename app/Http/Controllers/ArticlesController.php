@@ -36,6 +36,8 @@ public function index(Request $request)
 
       }else {
        $articles = Article::paginate(3);
+          
+
     }
 
       $view = (String)view('articles.list')
@@ -56,40 +58,6 @@ public function index(Request $request)
 
     }
 }
-
-//   $view = (String) view('articles._list')
-
-    //     ->with('articles', $articles)
-
-    //     ->render();
-
-    //   return response()->json(['view' => $view]);
-
-    //   }else {
-
-
-    //   $articles = Article::paginate(3);
-
-    //   $view = (String)view('articles.list')
-
-    //     ->with('articles', $articles)
-
-    //     ->render();
-
-    //   return response()->json(['view' => $view]);
-
-    // } 
-    // else {
-
-    //   $articles = Article::paginate(3);
-
-    //   return view('articles.index')
-
-    //     ->with('articles', $articles);
-    // }
-
-       
-    //    else {
 
 /**
 * Show the form for creating a new resource.
