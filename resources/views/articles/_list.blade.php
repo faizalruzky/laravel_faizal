@@ -1,30 +1,66 @@
-@foreach ($articles as $article)
-<div>
-  {!! Form::open(['action' => ['ArticlesController@destroy', $article->id], 'method' => 'DELETE']) !!}
- <!--  <input type="hidden" name="_token" value="{{ csrf_token() }}"> -->
-  <div class="row">
-    <div class="col s4 m4">
-      <div class="card small">
-        <div class="card-image">
-          <img class="materialboxed" src="{{ asset('/uploads/images/'. $article->id . '/' . $article->image) }} " class="img-responsive">
-          <span class="card-title">{{($article->title)}} </span>
-        </div>
-        <div class="card-content">
-          <p>{!!substr($article->content,0,20)!!}...</p>
-        </div>
-        <div class="card-action">
-          <a href="{{url('articles/'.$article->id)}}">Read more</a>
-          <a href="{{ url('articles/'.$article->id. '/edit') }}"><button type="button" class="btn-floating waves-effect waves-light blue"><span class="glyphicon glyphicon-edit"></span></button></a> 
-          <button type="submit" class="btn-floating waves-effect waves-light red"><span class="glyphicon glyphicon-trash"> </span>Delete</button>
+ <div id="articles-list">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<div class="row">
+
+<div class="col-lg-12" id="enrolls-list">
+<h1>Training Candidates</h1>
+
+<table class="table table-bordered table-hover">
+
+  <thead>
+
+    <tr>
+
+      <th class="text-center"><a id="id">ID<i id="ic-direction"></i></a></th>
+
+      <th class="text-center">Title</th>
+
+      <th class="text-center">Action</th>
+
+    </tr>
+
+  </thead>
+
+  <tbody>
+
+    @foreach($articles as $article)
+
+      <tr>
+
+        <td>{!! $article->id !!}</td>
+
+        <td class="text-center">{!! $article->status !!}</td>
+
+        <td>
+
+          {!!link_to('articles/'.$article->id, 'Show', array('class' => 'btn btn-info'))!!}
+
+          {!!link_to('articles/'.$article->id.'/edit', 'Edit', array('class' => 'btn btn-warning'))!!}
+
+          {!! Form::open(array('route' => array('articles.destroy', $article->id), 'method' => 'delete')) !!}
+
+            {!! Form::submit('Delete', array('class' => 'btn btn-danger', "onclick" => "return confirm('are you sure?')")) !!}
+
           {!! Form::close() !!}
-        </div>
-      </div>
-    </div>
+
+        </td>
+
+      </tr>
+
     @endforeach
 
-  </div>
+  </tbody>
+
+</table>
+
+<div>
+
+  {!! $articles->render() !!}
+
 </div>
-{!! $articles->render() !!}
-<!-- ================================================== -->
 </div>
-<script src="/js/custom.js"></script>
+
+  <input id="direction" type="hidden" value="asc" />
+
+</div>
+
