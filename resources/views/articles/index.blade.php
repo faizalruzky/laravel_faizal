@@ -39,6 +39,7 @@
 
  </div>
  <script src="/js/custom.js"></script>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <div id="articles-list">
  
  @include('articles.list')
