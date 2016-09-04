@@ -26,7 +26,8 @@ public function __construct(){
 public function index(Request $request)
 {
      if($request->ajax()) {
-          if($request->keywords) {
+
+    if($request->keywords) {
 
         $articles = Article::where('title', 'like', '%'.$request->keywords.'%')
 
@@ -35,28 +36,30 @@ public function index(Request $request)
           ->paginate(3);
 
       }else {
-       $articles = Article::paginate(3);
-          
+       $articles = Article::orderBy('id', $request->direction)
 
+      ->paginate(3);
     }
 
-      $view = (String)view('articles.list')
+    $request->direction == 'asc' ? $direction = 'desc' : $direction = 'asc';
 
-        ->with('articles', $articles)
+    $view = (String)view('articles._list')
 
-        ->render();
+      ->with('articles', $articles)
 
-      return response()->json(['view' => $view]);
+      ->render();
 
-    }  else {
+    return response()->json(['view' => $view, 'direction' => $direction]);
 
-      $articles = Article::paginate(3);
+  } else {
 
-      return view('articles.index')
+    $articles = Article::orderBy('created_at', 'desc')->paginate(3);
 
-        ->with('articles', $articles);
+    return view('articles.index')
 
-    }
+      ->with('articles', $articles);
+
+  }
 }
 
 /**
