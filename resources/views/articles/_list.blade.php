@@ -15,6 +15,8 @@
 
       <th class="text-center">Title</th>
 
+      <th class="text-center">Content</th>
+
       <th class="text-center">Action</th>
 
     </tr>
@@ -27,19 +29,20 @@
 
       <tr>
 
-        <td>{!! $article->id !!}</td>
+        <td class="text-center">{!! $article->id !!}</td>
 
-        <td class="text-center">{!! $article->status !!}</td>
+        <td class="text-center">{!! $article->title !!}</td>
+        <td class="text-center">{!! $article->content !!}</td>
 
-        <td>
-
+        <td class="text-center">
+        
           {!!link_to('articles/'.$article->id, 'Show', array('class' => 'btn btn-info'))!!}
-
+          
           {!!link_to('articles/'.$article->id.'/edit', 'Edit', array('class' => 'btn btn-warning'))!!}
+          
+          {!! Form::open(array('route' => array('articles.destroy', $article->id), 'method' => 'delete','style' => 'display:inline')) !!}
 
-          {!! Form::open(array('route' => array('articles.destroy', $article->id), 'method' => 'delete')) !!}
-
-            {!! Form::submit('Delete', array('class' => 'btn btn-danger', "onclick" => "return confirm('are you sure?')")) !!}
+            {!! Form::button('Delete', array('class' => 'btn btn-danger',"onclick" => "return confirm('are you sure?')")) !!}
 
           {!! Form::close() !!}
 
@@ -63,4 +66,4 @@
   <input id="direction" type="hidden" value="asc" />
 
 </div>
-
+<script src="/js/custom.js"></script>
