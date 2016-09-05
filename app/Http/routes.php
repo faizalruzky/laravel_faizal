@@ -21,3 +21,7 @@ Route::get('/home', 'HomeController@index');
 
 Route::resource('articles', 'ArticlesController');
 Route::resource('comments','CommentsController');
+Route::get('/getImport','ExcelController@getImport');
+Route::post('postImport','ExcelController@postImport');
+Route::get('/deleteAll','ExcelController@deleteAll');
+Route::get('/getExport','ExcelController@getExport');
