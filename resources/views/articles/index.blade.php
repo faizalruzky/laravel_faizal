@@ -13,36 +13,35 @@
   </div>
   <div class="row">
 
-  <div class="col-md-12 search">
+    <div class="col-md-12 search">
 
-    <div class="col-md-6">
+      <div class="col-md-6">
 
-      <div class="input-group input-group-sm">
+        <div class="input-group input-group-sm">
 
-        <input type="text" class="form-control" id="keywords" placeholder="Keywords">
+          <input type="text" class="form-control" id="keywords" placeholder="Keywords">
 
-        <span class="input-group-btn">
+          <span class="input-group-btn">
 
-        <button id="search" class="btn btn-info btn-flat" type="button">
+            <button id="search" class="btn btn-info btn-flat" type="button">
 
-          Go!
+              Go!
 
-        </button>
+            </button>
 
-        </span>
+          </span>
 
-      </div><!-- /input-group -->
+        </div><!-- /input-group -->
+
+      </div>
 
     </div>
 
   </div>
-
- </div>
- <script src="/js/custom.js"></script>
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <div id="articles-list">
  
  @include('articles.list')
  </div>
-
+<script src="/js/custom.js"></script>
 @stop

@@ -1,8 +1,8 @@
-@extends('layouts.application')
-<script src="/js/custom.js"></script>
+<!-- @extends('layouts.application') -->
+<!-- <script src="/js/custom.js"></script> -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <h1>Training Candidates</h1>
     <div class="row">
+        <h1>Training Candidates</h1>
     <a href="{{URL::to('/deleteAll')}}" class="btn btn-danger">Delete All</a>
 <a href="{{URL::to('/getImport')}}" class="btn btn-success">Import</a>
 <div class="btn-group">
